@@ -1,0 +1,433 @@
+{
+  "info": {
+    "name": "Lead CRM",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "leadId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads -- CRUD",
+      "item": [
+        {
+          "name": "Create lead",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Aman Gupta\",\"email\":\"aman@example.com\",\"phone\":\"+91-9876543210\",\"source\":\"website\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "List all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            }
+          }
+        },
+        {
+          "name": "List by status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads?status=NEW",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"],
+              "query": [{ "key": "status", "value": "NEW" }]
+            }
+          }
+        },
+        {
+          "name": "List by source",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads?source=website",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"],
+              "query": [{ "key": "source", "value": "website" }]
+            }
+          }
+        },
+        {
+          "name": "List paginated",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads?limit=5&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"],
+              "query": [
+                { "key": "limit", "value": "5" },
+                { "key": "offset", "value": "0" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get one",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update phone",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"phone\":\"+91-9000000000\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads -- Status",
+      "item": [
+        {
+          "name": "Transition: NEW -> CONTACTED",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"CONTACTED\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Transition: CONTACTED -> QUALIFIED",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"QUALIFIED\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Transition: QUALIFIED -> CONVERTED",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"CONVERTED\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Transition: any -> LOST",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"LOST\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads -- Bulk",
+      "item": [
+        {
+          "name": "Bulk create (mixed valid/invalid)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "bulk"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[{\"name\":\"Lead A\",\"email\":\"a@x.co\"},{\"name\":\"Lead B\",\"email\":\"b@x.co\",\"source\":\"referral\"},{\"email\":\"no-name@x.co\"}]",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Bulk update",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "bulk"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[{\"id\":\"{{leadId}}\",\"phone\":\"+1-555\"}]",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Errors",
+      "item": [
+        {
+          "name": "Create -- missing name (422)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"a@b.co\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Create -- invalid email (422)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"X\",\"email\":\"not-an-email\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get one -- bad id (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads/notanid",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "notanid"]
+            }
+          }
+        },
+        {
+          "name": "Get one -- not found (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads/000000000000000000000000",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "000000000000000000000000"]
+            }
+          }
+        },
+        {
+          "name": "Update -- status in body (400)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"CONTACTED\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Transition -- invalid NEW -> CONVERTED (400)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"CONVERTED\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Transition -- from terminal CONVERTED -> LOST (400)",
+          "description": "Run this against a lead that has already been transitioned to CONVERTED status. The expected response is 400 with an invalid transition error.",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/{{leadId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "{{leadId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"LOST\"}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "List -- unknown status filter (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/leads?status=WOMBAT",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads"],
+              "query": [{ "key": "status", "value": "WOMBAT" }]
+            }
+          }
+        },
+        {
+          "name": "Bulk -- empty array (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "bulk"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[]",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Bulk -- non-array body (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/leads/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["leads", "bulk"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Unknown route (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/nope",
+              "host": ["{{baseUrl}}"],
+              "path": ["nope"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
